@@ -16,32 +16,38 @@ function unminify(code) {
   return out.replace(/\n\s*\n+/g, "\n").trim();
 }
 
-const ed = document.getElementById("editor");
-
-function transform() {
-  ed.value = unminify(ed.value);
+function highlight(code) {
+  code = code
+    .replace(/"(.*?)"|\'(.*?)\'|\`([\s\S]*?)\`/g, m => `<span class="str">${m}</span>`)
+    .replace(/\b(\d+)\b/g, m => `<span class="num">${m}</span>`)
+    .replace(/\b(await|break|case|catch|const|continue|default|delete|do|else|export|for|from|function|if|import|let|new|return|switch|throw|try|var|while|yield)\b/g,
+             m => `<span class="kw">${m}</span>`)
+    .replace(/\b([a-zA-Z_]\w*)\s*(?=\()/g, m => `<span class="func">${m}</span>`)
+    .replace(/\bhttps?:\/\/[^\s"']+/g, m => `<span class="url">${m}</span>`)
+    .replace(/\b(api[_-]?key|secret|token|auth|bearer|passwd|pwd|session)\b/gi,
+             m => `<span class="sus">${m}</span>`);
+  return code;
 }
 
-ed.addEventListener("input", () => {
-  const pos = ed.selectionStart;
-  transform();
-  ed.selectionEnd = ed.selectionStart = pos;
-});
+const ed = document.getElementById("editor");
 
-ed.addEventListener("dragover", e => {
-  e.preventDefault();
-  ed.style.border = "2px dashed var(--accent)";
-});
-ed.addEventListener("dragleave", () => ed.style.border = "none");
+function process() {
+  let raw = ed.innerText;
+  let pretty = unminify(raw);
+  ed.innerHTML = highlight(pretty);
+}
 
+ed.addEventListener("input", process);
+
+ed.addEventListener("dragover", e => e.preventDefault());
 ed.addEventListener("drop", e => {
   e.preventDefault();
-  ed.style.border = "none";
   const f = e.dataTransfer.files[0];
   if (!f) return;
   const r = new FileReader();
   r.onload = ev => {
-    ed.value = unminify(ev.target.result);
+    ed.innerText = ev.target.result;
+    process();
   };
   r.readAsText(f);
 });
