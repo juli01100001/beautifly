@@ -1,58 +1,52 @@
-:root {
-  --bg: #fafafa;
-  --fg: #111;
-  --panel: #fff;
-  --border: #ccc;
-  --accent: #4a73ff;
-
-  --kw: #7c4dff;
-  --str: #1fa91f;
-  --num: #2979ff;
-  --func: #ff9800;
-  --url: #00bcd4;
-  --suspect: #ff4d4d;
-
-  --font-size: 17px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.dark {
-  --bg: #0f0f0f;
-  --fg: #eee;
-  --panel: #1a1a1a;
-  --border: #333;
-  --accent: #7aa2ff;
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111111;
+  --link-color: #007acc;
+}
 
-  --kw: #b28dff;
-  --str: #4dd04d;
-  --num: #6daaff;
-  --func: #ffc266;
-  --url: #4ddce2;
-  --suspect: #ff6666;
+[data-theme="dark"] {
+  --bg-color: #111111;
+  --text-color: #eeeeee;
+  --link-color: #66aaff;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-#themeToggle {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  z-index: 20;
-  background: var(--accent);
-  color: #fff;
+a {
+  color: var(--link-color);
+}
+
+/* Button styling (optional) */
+#theme-toggle {
+  background: none;
   border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
   cursor: pointer;
-  font-size: 17px;
+  padding: 0.3rem;
+  border-radius: 50%;
+  transition: background 0.2s;
 }
 
-#wrapper {
-  padding: 26px;
+
+
+#theme-toggle img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover img {
+  transform: rotate(20deg);
 }
 
 #editor {
@@ -84,19 +78,23 @@ body {
 }
 
 .hl-token-aws {
-  color: #ff9800; /* laranja forte */
+  color: #ff9800;
+  /* laranja forte */
 }
 
 .hl-jwt {
-  color: #7c4dff; /* roxo */
+  color: #7c4dff;
+  /* roxo */
 }
 
 .hl-token {
-  color: #ff4d4d; /* vermelho claro */
+  color: #ff4d4d;
+  /* vermelho claro */
 }
 
 .hl-b64 {
-  color: #2979ff; /* azul */
+  color: #2979ff;
+  /* azul */
 }
 
 .hl-susp {
